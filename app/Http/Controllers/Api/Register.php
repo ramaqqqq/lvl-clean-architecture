@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
 use App\Services\RegistrationService;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
@@ -12,13 +12,11 @@ class Register extends Controller
 {
     protected $registerSvc;
 
-    public function __construct(RegistrationService $registerSvc)
-    {
+    public function __construct(RegistrationService $registerSvc){
         $this->registerSvc = $registerSvc;
     }
 
-    public function __invoke(Request $payload)
-    {
+    public function __invoke(Request $payload) {
         $buildRegisterRequest = Validator::make($payload->all(), [
             'name' => 'required|string',
             'email' => 'required|email|unique:users',
@@ -31,7 +29,7 @@ class Register extends Controller
         }
 
         try {
-            $user = $this->registerSvc->emailRegisterSvc($buildRegisterRequest->validated());
+            $user = $this->registerSvc->RegisterSvc($buildRegisterRequest->validated());
             return response()->json(['user' => $user], 201);
         } catch (\Exception $err) {
             Log::error('Registration failed', ['error' => $err->getMessage()]);

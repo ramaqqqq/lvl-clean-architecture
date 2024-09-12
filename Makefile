@@ -24,6 +24,46 @@ repo:
 	@printf "<?php\n\nnamespace App\Repositories;\n\nclass $(name)\n{\n    // Repository logic\n}\n" > app/Repositories/$(name).php
 	@echo "Repository $(name) created successfully in app/Repositories/"
 
+repo.all: create_structure
+
+FOLDER_NAME=$(name)
+INTERFACE_NAME=$(interface)
+IMPLEMENTATION_NAME=$(implementation)
+
+create_structure:
+	@echo "Creating folder and files..."
+	@mkdir -p app/Repositories/$(FOLDER_NAME)
+	@touch app/Repositories/$(FOLDER_NAME)/$(INTERFACE_NAME).php
+	@touch app/Repositories/$(FOLDER_NAME)/$(IMPLEMENTATION_NAME).php
+	@echo "<?php" > app/Repositories/$(FOLDER_NAME)/$(INTERFACE_NAME).php
+	@echo "" >> app/Repositories/$(FOLDER_NAME)/$(INTERFACE_NAME).php
+	@echo "namespace App\\Repositories\\$(FOLDER_NAME);" >> app/Repositories/$(FOLDER_NAME)/$(INTERFACE_NAME).php
+	@echo "" >> app/Repositories/$(FOLDER_NAME)/$(INTERFACE_NAME).php
+	@echo "interface $(INTERFACE_NAME)" >> app/Repositories/$(FOLDER_NAME)/$(INTERFACE_NAME).php
+	@echo "{" >> app/Repositories/$(FOLDER_NAME)/$(INTERFACE_NAME).php
+	@echo "" >> app/Repositories/$(FOLDER_NAME)/$(INTERFACE_NAME).php
+	@echo "}" >> app/Repositories/$(FOLDER_NAME)/$(INTERFACE_NAME).php
+
+	@echo "<?php" > app/Repositories/$(FOLDER_NAME)/$(IMPLEMENTATION_NAME).php
+	@echo "" >> app/Repositories/$(FOLDER_NAME)/$(IMPLEMENTATION_NAME).php
+	@echo "namespace App\\Repositories\\$(FOLDER_NAME);" >> app/Repositories/$(FOLDER_NAME)/$(IMPLEMENTATION_NAME).php
+	@echo "" >> app/Repositories/$(FOLDER_NAME)/$(IMPLEMENTATION_NAME).php
+	@echo "use Exception;" >> app/Repositories/$(FOLDER_NAME)/$(IMPLEMENTATION_NAME).php
+	@echo "use App\\Models\\User;" >> app/Repositories/$(FOLDER_NAME)/$(IMPLEMENTATION_NAME).php
+	@echo "use Illuminate\\Support\\Facades\\Log;" >> app/Repositories/$(FOLDER_NAME)/$(IMPLEMENTATION_NAME).php
+	@echo "" >> app/Repositories/$(FOLDER_NAME)/$(IMPLEMENTATION_NAME).php
+	@echo "class $(IMPLEMENTATION_NAME) implements $(INTERFACE_NAME)" >> app/Repositories/$(FOLDER_NAME)/$(IMPLEMENTATION_NAME).php
+	@echo "{" >> app/Repositories/$(FOLDER_NAME)/$(IMPLEMENTATION_NAME).php
+	@echo "" >> app/Repositories/$(FOLDER_NAME)/$(IMPLEMENTATION_NAME).php
+	@echo "}" >> app/Repositories/$(FOLDER_NAME)/$(IMPLEMENTATION_NAME).php
+	@echo "Done!"
+
+clean:
+	@echo "Cleaning up..."
+	@rm -rf $(FOLDER_NAME)
+	@echo "Done!"
+
+
 svc:
 	@mkdir -p app/Services
 	@printf "<?php\n\nnamespace App\Services;\n\nclass $(name)\n{\n    // Service logic\n}\n" > app/Services/$(name).php
@@ -78,4 +118,7 @@ exception.jwt:
 
 install.api:
 	php artisan install:api
+
+dump.autoload:
+	composer dump-autoload
 

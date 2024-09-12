@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-interface RegistrationService
+interface RegistrationService 
 {
-    public function emailRegisterSvc(array $req);
+    public function RegisterSvc(array $req);
 }
